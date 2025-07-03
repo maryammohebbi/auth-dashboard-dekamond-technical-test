@@ -6,15 +6,20 @@ import styles from '@/styles/dashboard.module.scss'
 import { useAuth } from '@/context/AuthContext'
 
 export default function DashboardPage() {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const router = useRouter()
 
+ 
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       router.push('/auth')
     }
-  }, [user])
+  }, [loading, user])
 
+  if (loading) {
+    return <p>Loading...</p>
+  }
+  
   return user ? (
     <div className={styles.container}>
       <h2>Welcome to the Dashboard</h2>
